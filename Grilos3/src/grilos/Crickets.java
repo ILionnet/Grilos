@@ -1,15 +1,10 @@
 package grilos;
 
-
 public class Crickets extends Thread {
 	
-	private static int finishes = 0;
-	
 	private String name;
-	private int number;
 	private int jumps;
 	private int jumpedDistance;
-	private int jumpedDistanceSum;
 	private int maxDistance;
 	private int lastJump;
 	private static int placement;
@@ -18,10 +13,9 @@ public class Crickets extends Thread {
 	
 	private static Object monitor = new Object();
 	
-	public Crickets(int number, String name, int maxDistance) {
+	public Crickets(String name, int maxDistance) {
 		this.name = name;
 		this.maxDistance = maxDistance;
-		this.number = number;
 	}
 	
 	private void jump() {
@@ -31,8 +25,6 @@ public class Crickets extends Thread {
 		
 		if(jumpedDistance > maxDistance)
 			jumpedDistance = maxDistance;
-		
-		jumpedDistanceSum += lastJump;
 	}
 	
 	private void notifyJump() {
@@ -52,19 +44,15 @@ public class Crickets extends Thread {
 	private void finishLine() {
 		synchronized (monitor) {
 			placement++;
-			finishes++;
 			System.out.println("O " + name + " foi o " + placement + "º colocado com " + jumps + " pulos");
-			Competition.teamPoint((int)(number/3), jumps, jumpedDistanceSum);
-			if(finishes == Competition.cricketsAmount) {
-				Competition.announceWinner();
-			}
+			
 		}
 	}
 	
 	
 	@Override
 	public void run() {
-		while (jumpedDistance < maxDistance ) {
+		while (jumpedDistance < maxDistance) {
 			jump();
 			notifyJump();
 			rest();
