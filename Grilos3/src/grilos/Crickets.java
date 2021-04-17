@@ -67,9 +67,15 @@ public class Crickets extends Thread {
 		while (jumpedDistance < maxDistance ) {
 			jump();
 			notifyJump();
-			rest();
+			if(jumpedDistance < maxDistance) {
+				rest();
+			}
+			else {
+				finishLine();
+			}
+				
 		}
-		finishLine();
+		//finishLine();
 	}
 
 }
