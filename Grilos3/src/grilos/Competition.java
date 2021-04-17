@@ -67,7 +67,7 @@ public class Competition {
 		teamDistance.set(teamNumber, teamDistance.get(teamNumber) + jumpedDistanceSum);
 		
 		
-		if(teamsPoints.get(teamNumber) == 3 && !hasWinner) {
+		if(teamsPoints.get(teamNumber) == team.get(teamNumber).size() && !hasWinner) {
 			winner = teamNumber+1;
 			//System.out.println("Equipe "+ (teamNumber+1) + " foi vitoriosa!");
 			hasWinner = true;
