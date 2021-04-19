@@ -82,33 +82,20 @@ public class Competition {
 			
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(team);
-			System.out.println(e);
+			//System.out.println(team);
+			//System.out.println(e);
 		}
 		
 		teamDistance.set(teamNumber, teamDistance.get(teamNumber) + jumpedDistanceSum);
-		
-		
-		/*if(teamsPoints.get(teamNumber) == team.get(teamNumber).size() && !hasWinner) {
-			winner = teamNumber+1;
-			//System.out.println("Equipe "+ (teamNumber+1) + " foi vitoriosa!");
-			hasWinner = true;
-			
-		}*/
-		
 	}
 	
 	public static void defineWinner(int teamNumber) {
-		winner = teamNumber+1;
-		hasWinner = true;
+		if(!hasWinner) {
+			winner = teamNumber+1;
+			hasWinner = true;
+		}
 		
-		/*try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		//announceWinner();
+		
 	}
 	
 	public static void announceWinner() {
@@ -116,8 +103,6 @@ public class Competition {
 		for(int i = 0; i < team.size(); i++) {
 			System.out.println("Time " + (i+1) + ": Total de pulos: " + teamJumps.get(i) + " - Distância Percorrida: " + teamDistance.get(i));
 		}
-		/*System.out.println("Time 1:" + teamJumps.get(0));
-		System.out.println("Equipe 2 pulou " + teamJumps.get(1));*/
 		System.out.println("Time " + winner + " foi o vencedor");
 		
 	}

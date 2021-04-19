@@ -68,6 +68,7 @@ public class Crickets extends Thread {
 			finishes++;
 			System.out.println("O " + name + " foi o " + placement + "º colocado com " + jumps + " pulos");
 			Competition.defineWinner((int)number/3);
+			//System.out.println(number);
 			//Competition.teamPoint((int)(number/3), jumps, jumpedDistance);
 			if(finishes == Competition.cricketsAmount) {
 				Competition.announceWinner();
