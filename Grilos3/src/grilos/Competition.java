@@ -1,6 +1,7 @@
 package grilos;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Competition {
 	
@@ -15,6 +16,8 @@ public class Competition {
 	public static List<List<Crickets>> team = new ArrayList<>();
 	public static List<Integer> teamJumps = new ArrayList<>();
 	public static List<Integer> teamDistance = new ArrayList<>();
+	
+	public static List<List<Integer>> tempRanks = new ArrayList<>();
 	
 	public static int teamsAmount = (int)cricketsAmount/3 + cricketsAmount%3;
 	public static List<Integer> teamsPoints = new ArrayList<>();
@@ -99,7 +102,13 @@ public class Competition {
 		winner = teamNumber+1;
 		hasWinner = true;
 		
-		announceWinner();
+		/*try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		//announceWinner();
 	}
 	
 	public static void announceWinner() {

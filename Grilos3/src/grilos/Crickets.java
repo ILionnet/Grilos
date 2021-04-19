@@ -1,5 +1,6 @@
 package grilos;
 
+import java.util.concurrent.Semaphore;
 
 public class Crickets extends Thread {
 	
@@ -16,8 +17,7 @@ public class Crickets extends Thread {
 	private static final int restIncrement = 200;
 	private static final int jumpIncrement = 30;
 	
-	private static Object monitor = new Object();
-	private static Object notifyMonitor = new Object();
+	private Semaphore semaphore = new Semaphore(1);
 	
 	public Crickets(int number, String name, int maxDistance) {
 		this.name = name;
@@ -37,11 +37,17 @@ public class Crickets extends Thread {
 	}
 	
 	private void notifyJump() {
-		synchronized (notifyMonitor) {
+		
+		try {
+			semaphore.acquire();
 			Competition.teamPoint((int)(number/3), jumps, lastJump);			
+			System.out.println(name + " pulou " + lastJump + " cm   e já percorreu " + jumpedDistance + " cm");
+			semaphore.release();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		System.out.println(name + " pulou " + lastJump + " cm   e já percorreu " + jumpedDistance + " cm");
 	}
 	
 	private void rest() {
@@ -55,33 +61,43 @@ public class Crickets extends Thread {
 	}
 	
 	private void finishLine() {
-		synchronized (monitor) {
+		try {
+			semaphore.acquire();
+			
 			placement++;
 			finishes++;
 			System.out.println("O " + name + " foi o " + placement + "º colocado com " + jumps + " pulos");
 			Competition.defineWinner((int)number/3);
-			//Competition.teamPoint((int)(number/3), jumps, jumpedDistanceSum);
-			//if(finishes == Competition.cricketsAmount) {
-				//Competition.announceWinner();
-			//}
+			//Competition.teamPoint((int)(number/3), jumps, jumpedDistance);
+			if(finishes == Competition.cricketsAmount) {
+				Competition.announceWinner();
+			}
+			
+			semaphore.release();
 		}
+		
+		catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
 	}
 	
 	
 	@Override
 	public void run() {
-		while (jumpedDistance < maxDistance && finishes == 0) {
+		while (jumpedDistance < maxDistance) {
 			jump();
 			notifyJump();
 			if(jumpedDistance < maxDistance) {
 				rest();
 			}
-			else {
+			/*else {
 				finishLine();
-			}
+			}*/
 				
 		}
-		//finishLine();
+		finishLine();
 	}
 
 }
