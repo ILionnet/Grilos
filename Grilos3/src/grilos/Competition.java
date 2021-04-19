@@ -56,7 +56,7 @@ public class Competition {
 		teamsPoints.add(0);
 		teamJumps.add(0);
 		teamDistance.add(0);
-		list = new ArrayList<>(); //Dúvida: list.Clear() removia os itens que eram passados para a lista tea. Pq?
+		list = new ArrayList<>(); //Dúvida: list.Clear() removia os itens que eram passados para a lista team. Pq?
 		
 	}
 	
@@ -67,7 +67,7 @@ public class Competition {
 		teamDistance.set(teamNumber, teamDistance.get(teamNumber) + jumpedDistanceSum);
 		
 		
-		if(teamsPoints.get(teamNumber) == team.get(teamNumber).size() && !hasWinner) {
+		if(/*teamsPoints.get(teamNumber) == team.get(teamNumber).size() &&*/ !hasWinner) {
 			winner = teamNumber+1;
 			//System.out.println("Equipe "+ (teamNumber+1) + " foi vitoriosa!");
 			hasWinner = true;
