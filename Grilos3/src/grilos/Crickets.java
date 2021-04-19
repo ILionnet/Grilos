@@ -17,6 +17,7 @@ public class Crickets extends Thread {
 	private static final int jumpIncrement = 30;
 	
 	private static Object monitor = new Object();
+	private static Object notifyMonitor = new Object();
 	
 	public Crickets(int number, String name, int maxDistance) {
 		this.name = name;
@@ -36,6 +37,10 @@ public class Crickets extends Thread {
 	}
 	
 	private void notifyJump() {
+		synchronized (notifyMonitor) {
+			Competition.teamPoint((int)(number/3), jumps, lastJump);			
+		}
+		
 		System.out.println(name + " pulou " + lastJump + " cm   e já percorreu " + jumpedDistance + " cm");
 	}
 	
@@ -54,17 +59,18 @@ public class Crickets extends Thread {
 			placement++;
 			finishes++;
 			System.out.println("O " + name + " foi o " + placement + "º colocado com " + jumps + " pulos");
-			Competition.teamPoint((int)(number/3), jumps, jumpedDistanceSum);
-			if(finishes == Competition.cricketsAmount) {
-				Competition.announceWinner();
-			}
+			Competition.defineWinner((int)number/3);
+			//Competition.teamPoint((int)(number/3), jumps, jumpedDistanceSum);
+			//if(finishes == Competition.cricketsAmount) {
+				//Competition.announceWinner();
+			//}
 		}
 	}
 	
 	
 	@Override
 	public void run() {
-		while (jumpedDistance < maxDistance ) {
+		while (jumpedDistance < maxDistance && finishes == 0) {
 			jump();
 			notifyJump();
 			if(jumpedDistance < maxDistance) {
